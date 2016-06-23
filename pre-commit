@@ -1,0 +1,36 @@
+#!/bin/sh
+#
+# An example hook script to verify what is about to be committed.
+# Called by "git commit" with no arguments.  The hook should
+# exit with non-zero status after issuing an appropriate message if
+# it wants to stop the commit.
+#
+# To enable this hook, rename this file to "pre-commit".
+#echo $HOME
+branch=$(git symbolic-ref --short HEAD)
+
+#echo
+#echo "**** Running post-commit hook from branch $branch"
+#echo
+
+chmod u+x $HOME"/JIRAPeerCodeReviewValidation.jar"
+java -jar $HOME"/JIRAPeerCodeReviewValidation.jar" $branch
+
+
+#echo Running $BASH_SOURCE
+#set | egrep GIT
+#echo PWD is $PWD
+#i=1
+#n=2
+#fileValue = awk '{print $1}' /Users/z001t9h/filename.txt
+read word _ < $HOME"/filename.txt"
+#the_world_is_flat=true
+if [ "$word" = false ]; then
+        #echo 'status false , git commit failed '
+    exit 1
+else
+        #echo $word
+        #echo 'status true , git commit success'
+    exit 0
+fi
+
